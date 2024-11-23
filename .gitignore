@@ -11,7 +11,6 @@ node_modules
 dist
 dist-ssr
 *.local
-
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json
@@ -22,3 +21,9 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+# Environment variables file
+.env
+# Temporary files
+*.swp
+# firebase files (if needed, or other API keys)
+firebase.json

@@ -1,53 +1,59 @@
-import { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { UserAuth } from "../context/AuthContext";
 import { addDoc, collection, serverTimestamp } from "firebase/firestore";
 import { db } from "../firebase";
 
 const SendMessage = () => {
-  const [value, setValue] = useState("");
+  const [value, setValue] = useState(""); 
   const { currentUser } = UserAuth();
 
-  // Track `value` changes
-useEffect(() => {
-  console.log("Value changed to:", value);
-}, [value]);
+  if (!currentUser) {
+    return <div>Please sign in to send messages.</div>;
+  }
 
   const handleSendMessage = async (e) => {
     e.preventDefault();
 
-    if (value.trim() === "") {
-      alert("Enter a valid message!");
+    
+    if (!value.trim()) {
+      alert("Enter a message!");
       return;
     }
 
+    
+    const message = value.trim(); 
+    setValue("");
+
     try {
-      const { uid, displayName, photoURL } = currentUser;
       await addDoc(collection(db, "messages"), {
-        text: value,
-        name: displayName,
-        avatar: photoURL,
+        text: message,
         createdAt: serverTimestamp(),
-        uid
+        uid: currentUser.uid,
+        name: currentUser.displayName || "Anonymous",
+        avatar: currentUser.photoURL || "",
       });
-      setValue("");
-      e.target.reset(); // Clear the input in the form
-    console.log("Input cleared, current value:", value);
     } catch (error) {
-      console.log("Error sending message:", error);
+      console.error("Error sending message:", error);
     }
   };
 
   return (
-    <div className="bg-gray-200 fixed bottom-0 w-full py-10 shadow-lg">
-      <form onSubmit={handleSendMessage} className="px-3 containerWrap flex">
+    <div className="bg-gray-200 fixed bottom-0 w-full py-4 shadow-lg">
+      <form onSubmit={handleSendMessage} className="flex items-center gap-2 px-4">
         <input
           value={value}
-          onChange={(e) => setValue(e.target.value.trim())}
+          onChange={(e) => setValue(e.target.value)} 
           type="text"
-          className="input w-full focus:outline-none rounded-r-none bg-gray-100"
+          className="w-full px-4 py-2 rounded-lg border focus:outline-none bg-gray-100"
+          placeholder="Type your message here..."
         />
-
-        <button type="submit" className="bg-blue-500 w-auto text-white rounded-r-lg text-sm px-6">Send</button>
+        <button
+          type="submit"
+           className="bg-blue-500 text-white px-4 py-2 rounded-lg sm:px-3 sm:py-1 md:px-5 md:py-3"
+          disabled={!value.trim()} 
+        >
+          Send
+        </button>
       </form>
     </div>
   );
