@@ -14,7 +14,7 @@ export default defineConfig({
   ],
   resolve: {
     alias: {
-      "@": "/src", // Alias for `src` directory
+      "@": "/src", 
     },
   },
   build: {
