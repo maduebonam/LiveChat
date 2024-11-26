@@ -11,14 +11,13 @@ const Message = ({ message, removeMessage }) => {
   
 
   const handleDelete = () => {
-    if (currentUser.uid !== message.uid) return; // Prevent deleting others' messages
-    if (window.confirm('Are you sure you want to delete this message locally?')) {
-      removeMessage(message.id); // Remove from local state only
-      console.log('Message removed locally');
+    if (currentUser.uid !== message.uid) return; 
+    if (window.confirm('Do you want to delete this message?')) {
+      removeMessage(message.id); 
+      console.log('Message removed');
     }
   };
 
-    // Define a function to assign colors based on the uid
     const getBubbleColor = (uid) => {
       const colors = {
         'user1-uid': 'bg-blue-600',
@@ -37,7 +36,7 @@ const Message = ({ message, removeMessage }) => {
         'user14-uid': 'bg-black-600',
         'user15-uid': 'bg-slate-500',
       };
-      return colors[uid] || 'bg-blue-600'; // Default color if UID not mapped
+      return colors[uid] || 'bg-blue-600'; 
     };
 
   return (
@@ -64,7 +63,7 @@ const Message = ({ message, removeMessage }) => {
 
       <div className={`chat-bubble text-white ${getBubbleColor(message.uid)}`}>{message.text}</div>
 
-      {/* <div className="chat-bubble bg-blue-600 text-white">{message.text}</div> */}
+      
     </div>
   );
 };

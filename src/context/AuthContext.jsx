@@ -1,6 +1,6 @@
 import React, { createContext, useState, useContext, useEffect } from 'react';
 import { getAuth, GoogleAuthProvider, signInWithPopup, signOut, onAuthStateChanged } from 'firebase/auth';
-import { auth } from '../firebase';
+import { auth, db } from "../firebase";
 
 const AuthContext = createContext();
 
@@ -25,7 +25,16 @@ export const AuthProvider = ({ children }) => {
       await signInWithPopup(auth, provider);
       console.log('Signed in successfully');
     } catch (error) {
-      console.error('Error signing in with popup:', error);
+      console.error('Error Code:', error.code);
+      console.error('Error Message:', error.message);
+
+      if (error.code === 'auth/popup-blocked') {
+        alert('The login popup was blocked. Please allow popups and try again.');
+      } else if (error.code === 'auth/cancelled-popup-request') {
+        alert('Another login attempt is already in progress. Please wait.');
+      } else {
+        alert(`Error signing in: ${error.message}`);
+      }
     }
   };
 
@@ -36,6 +45,7 @@ export const AuthProvider = ({ children }) => {
       setCurrentUser(null);
     } catch (error) {
       console.error('Error during sign-out:', error);
+      alert(`Error during logout: ${error.message}`);
     }
   };
 
