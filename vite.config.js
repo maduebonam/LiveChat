@@ -12,6 +12,11 @@ export default defineConfig({
       brotliSize: true,
     }),
   ],
+  resolve: {
+    alias: {
+      "@": "/src", // Alias for `src` directory
+    },
+  },
   build: {
     rollupOptions: {
       output: {
