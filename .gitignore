@@ -25,5 +25,5 @@ dist-ssr
 .env
 # Temporary files
 *.swp
-# firebase files (if needed, or other API keys)
+# firebase files
 firebase.json
