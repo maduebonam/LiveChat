@@ -1,6 +1,6 @@
 import React, { createContext, useState, useContext, useEffect } from 'react'; 
 import { getAuth, GoogleAuthProvider, signInWithPopup, signOut, onAuthStateChanged, signInWithRedirect } from 'firebase/auth';
-import { auth, db } from "@/firebase";
+import { auth, db } from "../firebase";
 
 const AuthContext = createContext();
 
@@ -35,7 +35,7 @@ export const AuthProvider = ({ children }) => {
       if (error.code === 'auth/popup-blocked') {
         alert('The login popup was blocked. Trying redirect method...');
         try {
-          await signInWithRedirect(auth, provider); // Fallback to redirect
+          await signInWithRedirect(auth, provider); 
         } catch (redirectError) {
           console.error('Redirect error:', redirectError);
           alert(`Error during redirect sign-in: ${redirectError.message}`);
@@ -46,7 +46,7 @@ export const AuthProvider = ({ children }) => {
         alert(`Error signing in: ${error.message}`);
       }
     } finally {
-      setIsAuthenticating(false); // Reset state
+      setIsAuthenticating(false); 
     }
   };
 
