@@ -16,7 +16,8 @@ const Navbar = () => {
   return (
     <div className="navbar fixed z-10 bg-neutral text-neutral-content sm:px-4 md:px-8 lg:px-16">
       <div className="containerWrap flex justify-between">
-        <a className="btn btn-ghost normal-case text-xl">LiveChat</a>
+        
+        <a className="btn btn-ghost normal-case text-xl"><img src="livechat.png" alt="livechat.png" className="h-12 w-18 mx-2" />LiveChat</a>
         {currentUser ? (
           <button onClick={handleLogout} className="font-semibold">
             Logout
